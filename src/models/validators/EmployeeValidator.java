@@ -5,11 +5,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import models.Employee;
 import utils.DBUtil;
 
 
 public class EmployeeValidator {
-    public static List<String> validates(EmployeeValidator e, Boolean code_duplicate_check_flag, Boolean password_check_flag ) {
+    public static List<String> validates(Employee e, Boolean code_duplicate_check_flag, Boolean password_check_flag) {
         List<String> errors = new ArrayList<String>();
 
         String code_error = _validateCode(e.getCode(), code_duplicate_check_flag);
@@ -22,7 +23,7 @@ public class EmployeeValidator {
             errors.add(name_error);
         }
 
-        String password_error = _validatePassword(e.getPassword().password_check_flag);
+        String password_error = _validatePassword(e.getPassword(),password_check_flag);
         if(!password_error.equals("")) {
             errors.add(password_error);
         }
@@ -40,6 +41,7 @@ public class EmployeeValidator {
         //すでに登録されている社員番号との重複チェック
         if(code_duplicate_check_flag) {
             EntityManager em = DBUtil.createEntityManager();
+            // createNamedQueryのクラス名の部分は結果として出力されるデータの型を指定する
             long employees_count = (long)em.createNamedQuery("checkRegisterdCode", Long.class)
                     .setParameter("code", code)
                     .getSingleResult();
