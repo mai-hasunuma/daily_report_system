@@ -42,7 +42,7 @@ public class EmployeeValidator {
         if(code_duplicate_check_flag) {
             EntityManager em = DBUtil.createEntityManager();
             // createNamedQueryのクラス名の部分は結果として出力されるデータの型を指定する
-            long employees_count = (long)em.createNamedQuery("checkRegisterdCode", Long.class)
+            long employees_count = (long)em.createNamedQuery("checkRegisteredCode", Long.class)
                     .setParameter("code", code)
                     .getSingleResult();
             em.close();

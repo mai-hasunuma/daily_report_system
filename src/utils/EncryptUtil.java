@@ -28,6 +28,7 @@ public class EncryptUtil {
                 // digestは指定したアルゴリズム名のこと　ここではSHA-256のこと
                 // ここでは変数passwordに格納された値をハッシュ値にするということ　https://weblabo.oscasierra.net/java-sha-1/
                 bytes = MessageDigest.getInstance("SHA-256").digest(password.getBytes());
+                // byte配列から１６進数文字列に変換する　https://weblabo.oscasierra.net/java-hex-convert-1/
                 ret = DatatypeConverter.printHexBinary(bytes);
             } catch(NoSuchAlgorithmException ex) {
             }

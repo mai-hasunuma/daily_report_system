@@ -36,6 +36,7 @@ public class PropertiesListener implements ServletContextListener {
     /**
      * @see ServletContextListener#contextInitialized(ServletContextEvent)
      */
+    // contextInitialized アプリケーション起動時に処理させる
     public void contextInitialized(ServletContextEvent arg0)  {
         // アプリケーションスコープの取得
          ServletContext context = arg0.getServletContext();
