@@ -8,11 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Table(name = "employees")
@@ -32,7 +30,7 @@ import javax.persistence.Table;
     @NamedQuery(
             name = "checkLogionCodeAndPassword",
             query = "SELECT e FROM Employee AS e WHERE e.delete_flag = 0 AND e.code = :code AND e.password = :pass"
-            )
+            ),
 })
 @Entity
 public class Employee {
@@ -41,18 +39,14 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // フォロワーID
-    @ManyToMany
-    @JoinTable(
-            name = "employee_follow",
-            joinColumns = @JoinColumn(name = "follow_id"),
-            inverseJoinColumns = @JoinColumn(name = "followed_id")
-            )
-    Set<Employee> followedEmployees;
+    // 社員１人に対してrelationshipが複数　OneToManyを用いる
+    // mappedByで参照先のカラム名を指定することで、employeeとrelationshipの関係が双方向になる
+    @OneToMany(mappedBy = "following")
+    private Set<Relationship> relationships_following;
 
-    // フォローユーザーID
-    @ManyToMany(mappedBy = "followedEmployees")
-    Set<Employee> follows;
+
+    @OneToMany(mappedBy = "followed")
+    private Set<Relationship> relationships_followed;
 
 
     @Column(name = "code", nullable = false, unique = true)
