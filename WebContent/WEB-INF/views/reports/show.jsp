@@ -12,7 +12,14 @@
                     <tbody>
                         <tr>
                             <th>氏名</th>
-                            <td><c:out value="${report.employee.name}" /></td>
+                            <td><a href="<c:url value="/employees/show?id=${report.employee.id}"/>"><c:out value="${report.employee.name}" /></a>&nbsp;
+                                <c:if test="${login_employee.id != report.employee.id}">
+                                    <form method="POST" action="<c:url value='/relationships/create' />">
+                                    <input type="hidden" name="_token" value="${_token}"/>
+                                    <button type="submit">フォローする</button>
+                                    </form>
+                                </c:if>
+                            </td>
                         </tr>
                         <tr>
                             <th>日付</th>

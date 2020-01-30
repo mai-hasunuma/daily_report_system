@@ -16,15 +16,17 @@
                                 <th>氏名</th>
                                 <td><c:out value="${employee.name}" /></td>
                             </tr>
-                            <tr>
-                                <th>権限</th>
-                                <td>
-                                    <c:choose>
-                                        <c:when test="${employee.admin_flag == 1 }">管理者</c:when>
-                                        <c:otherwise>一般</c:otherwise>
-                                    </c:choose>
-                                </td>
-                            </tr>
+                            <c:if test="${login_enployee.admin_flag == 1 }">
+                                <tr>
+                                    <th>権限</th>
+                                    <td>
+                                        <c:choose>
+                                            <c:when test="${employee.admin_flag == 1 }">管理者</c:when>
+                                            <c:otherwise>一般</c:otherwise>
+                                        </c:choose>
+                                    </td>
+                                </tr>
+                            </c:if>
                             <tr>
                                 <th>登録日時</th>
                                 <td>
@@ -39,8 +41,9 @@
                             </tr>
                         </tbody>
                     </table>
-
-                    <p><a href="<c:url value='/employees/edit?id=${employee.id}' />">この従業員情報を編集する</a></p>
+                    <c:if test="${login_enployee.admin_flag == 1 }">
+                        <p><a href="<c:url value='/employees/edit?id=${employee.id}' />">この従業員情報を編集する</a></p>
+                    </c:if>
             </c:when>
             <c:otherwise>
                 <h2>お探しのデータは見つかりませんでした</h2>
