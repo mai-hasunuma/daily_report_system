@@ -133,4 +133,20 @@ public class Employee {
     public void setDelete_flag(Integer delete_flag) {
         this.delete_flag = delete_flag;
     }
+
+    public Set<Relationship> getRelationships_following() {
+        return relationships_following;
+    }
+
+    public void setRelationships_following(Set<Relationship> relationships_following) {
+        this.relationships_following = relationships_following;
+    }
+
+    public Set<Relationship> getRelationships_followed() {
+        return relationships_followed;
+    }
+
+    public void setRelationships_followed(Set<Relationship> relationships_followed) {
+        this.relationships_followed = relationships_followed;
+    }
 }

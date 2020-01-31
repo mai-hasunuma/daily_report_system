@@ -33,7 +33,6 @@ public class RelationshipsCreateServlet extends HttpServlet {
 
             r.setFollowing((Employee)request.getSession().getAttribute("login_employee"));
             r.setFollowed((Employee)request.getSession().getAttribute("employee"));
-                System.out.println(request.getSession().getAttribute("employee"));
 
 
             Timestamp currentTime = new Timestamp(System.currentTimeMillis());
@@ -45,8 +44,8 @@ public class RelationshipsCreateServlet extends HttpServlet {
             em.getTransaction().commit();
             em.close();
             request.getSession().setAttribute("flush", "フォロー完了しました");
+            response.sendRedirect(request.getContextPath() + "/relationships/index");
             request.getSession().removeAttribute("employee");
-            response.sendRedirect(request.getContextPath() + "/reports/index");
 
 
         }
