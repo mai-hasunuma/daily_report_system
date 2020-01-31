@@ -46,6 +46,7 @@ public class RelationshipsCreateServlet extends HttpServlet {
             request.getSession().setAttribute("flush", "フォロー完了しました");
             response.sendRedirect(request.getContextPath() + "/relationships/index");
             request.getSession().removeAttribute("employee");
+            request.getSession().removeAttribute("report");
 
 
         }
