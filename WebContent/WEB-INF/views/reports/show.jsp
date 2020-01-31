@@ -13,10 +13,16 @@
                         <tr>
                             <th>氏名</th>
                             <td><a href="<c:url value="/employees/show?id=${report.employee.id}"/>"><c:out value="${report.employee.name}" /></a>&nbsp;
-                                <c:if test="${login_employee.id != report.employee.id}">
+                                <c:if test="${relationship.size() == 0 and sessionScope.login_employee != employee }">
                                     <form method="POST" action="<c:url value='/relationships/create' />">
                                     <input type="hidden" name="_token" value="${_token}"/>
-                                    <button type="submit">フォローする</button>
+                                    <button type="submit">フォロー</button>
+                                    </form>
+                                </c:if>
+                                <c:if test="${relationship.size() != 0 and sessionScope.login_employee != employee}">
+                                    <form method="POST" action="<c:url value='#' />">
+                                    <input type="hidden" name="_token" value="${_token}"/>
+                                    <button type="submit">フォロー解除</button>
                                     </form>
                                 </c:if>
                             </td>

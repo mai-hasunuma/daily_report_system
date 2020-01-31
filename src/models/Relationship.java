@@ -3,11 +3,12 @@ package models;
 import java.sql.Timestamp;
 
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -18,25 +19,23 @@ import javax.persistence.Table;
             name = "getFolloewdByMe",
             query = "SELECT r.followed FROM Relationship AS r WHERE r.following = :following"
             ),
+    @NamedQuery(
+            name = "followingJudgement",
+            query = "SELECT r from Relationship AS r WHERE r.following = :following AND r.followed = :followed"
+            ),
 })
 @Entity
 public class Relationship {
-    //複合型でのプライマリーキーの指定
-    // RelationshipKeyのidを引っ張る
-
-    @EmbeddedId
+    @Id
     @Column(name = "id")
-    private RelationshipKey id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @ManyToOne
-    // MapsIdで複合キーのカラムを指定し、連携している
-    @MapsId("followingId")
-    // JoinColumnでEmployeeのカラムおの連携
     @JoinColumn(name = "following_id")
     private Employee following;
 
     @ManyToOne
-    @MapsId("followedId")
     @JoinColumn(name =  "followed_id")
     private Employee followed;
 
@@ -46,11 +45,11 @@ public class Relationship {
     @Column(name="updated_at")
     private Timestamp updated_at;
 
-    public RelationshipKey getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(RelationshipKey id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -58,8 +57,8 @@ public class Relationship {
         return following;
     }
 
-    public void setFollowing(Employee follwing) {
-        this.following = follwing;
+    public void setFollowing(Employee following) {
+        this.following = following;
     }
 
     public Employee getFollowed() {
@@ -85,5 +84,6 @@ public class Relationship {
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
     }
+
 
 }
