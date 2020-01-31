@@ -28,6 +28,14 @@ public class RelationshipsIndexServlet extends HttpServlet {
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
+
+        int page;
+        try {
+            page = Integer.parseInt(request.getParameter("page"));
+        } catch(Exception e) {
+            page = 1;
+        }
+
         Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");
 
         List<Employee> followed_employees = em.createNamedQuery("getFolloewdByMe", Employee.class)
@@ -48,11 +56,31 @@ public class RelationshipsIndexServlet extends HttpServlet {
 
         }
 
+        int toIndex = 0;
+        if(reportAll.size() / 15 == page - 1) {
+            // 最終ページ
+            // インデックスは最後の値は含まないので-1
+            toIndex = reportAll.size() -1;
+        }else {
+            toIndex = page * 15 -1;
+        }
+
+        List<Report>reports = new ArrayList<Report>();
+        if(toIndex >= 0) {
+            reports = reportAll.subList(15 * (page -1), toIndex);
+        } else {
+            reports = null;
+        }
 
         em.close();
+        int reports_count = reportAll.size();
 
-    request.setAttribute("reports", reportAll);
-    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/index.jsp");
+
+    request.setAttribute("reports", reports);
+    request.setAttribute("reports_count", reports_count);
+    request.setAttribute("page", page);
+    request.setAttribute("servletPath", request.getServletPath());
+    RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/relationships/index.jsp");
     rd.forward(request, response);
     }
 

@@ -46,17 +46,8 @@ public class ReportsShowServlet extends HttpServlet {
                 .getResultList();
         em.close();
 
-/*        String relationship_judgement = "フォロー解除ボタン設置";
-        if (relationship == null  && relationship.size() == 0) {
-            relationship_judgement ="フォローボタン設置";
-        }
-        if (request.getSession().getAttribute("login_employee") == r.getEmployee()) {
-            relationship_judgement = "フォロー関連ボタン設置しない";
-        }*/
-
         request.setAttribute("relationship", relationship);
-/*        request.setAttribute("relationship_judgement", relationship_judgement);*/
-        request.setAttribute("report", r);
+        request.getSession().setAttribute("report", r);
         request.getSession().setAttribute("employee", e);
         request.setAttribute("_token", request.getSession().getId());
 
