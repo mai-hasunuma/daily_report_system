@@ -60,9 +60,9 @@ public class RelationshipsIndexServlet extends HttpServlet {
         if(reportAll.size() / 15 == page - 1) {
             // 最終ページ
             // インデックスは最後の値は含まないので-1
-            toIndex = reportAll.size() -1;
+            toIndex = reportAll.size();
         }else {
-            toIndex = page * 15 -1;
+            toIndex = page * 15;
         }
 
         List<Report>reports = new ArrayList<Report>();
