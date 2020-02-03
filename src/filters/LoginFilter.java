@@ -63,6 +63,11 @@ public class LoginFilter implements Filter {
                     ((HttpServletResponse)response).sendRedirect(context_path + "/");
                     return;
                 }
+
+                if(servlet_path.matches("/approvals.*") && (e.getAdmin_flag() == 0 || e.getAdmin_flag() == 1)) {
+                    ((HttpServletResponse)response).sendRedirect(context_path + "/");
+                    return;
+                }
             } else {
                 // ろぐいんしているのにログイン画面を表示させようとした場合は
                 // システムのトップページにリダイレクト
