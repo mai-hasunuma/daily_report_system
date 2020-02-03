@@ -46,7 +46,20 @@ public class ReportsShowServlet extends HttpServlet {
                 .getResultList();
         em.close();
 
+        Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");
+
+        boolean approval_authority = false;
+
+        // 承認機能の追加
+        if(r.getEmployee().getAdmin_flag() == 0 && login_employee.getAdmin_flag() == 2) {
+            approval_authority = true;
+        }
+        if(r.getEmployee().getAdmin_flag() == 2 && login_employee.getAdmin_flag() == 3) {
+            approval_authority = true;
+        }
+
         request.setAttribute("relationship", relationship);
+        request.setAttribute("approval_authority", approval_authority);
         request.getSession().setAttribute("report", r);
         request.getSession().setAttribute("employee", e);
         request.setAttribute("_token", request.getSession().getId());

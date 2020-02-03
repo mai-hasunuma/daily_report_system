@@ -41,6 +41,15 @@ import javax.persistence.Table;
             name = "getMyFollowingReportsCount",
             query = "SELECT COUNT(r) FROM Report AS r WHERE r.employee.id = :followed_id"
             ),
+    @NamedQuery(
+            name = "getNonApprovalReports",
+            // 課長の場合は一般社員、部長の場合は課長を承認できるようにするのでパラメータで渡すことにする
+            query = "SELECT r FROM Report AS r WHERE r.employee.admin_flag = :admin_flag AND r.approval = 0 ORDER BY r.id DESC"
+            ),
+    @NamedQuery(
+            name = "getNonApprovalReportsCount",
+            query = "SELECT COUNT(r) FROM Report AS r WHERE r.employee.admin_flag = :admin_flag AND r.approval = 0"
+            ),
 })
 @Entity
 public class Report {
@@ -66,6 +75,9 @@ public class Report {
     @Lob
     @Column(name = "content", nullable = false)
     private String content;
+
+    @Column(name= "approval", nullable = false)
+    private Integer approval;
 
     @Column(name = "created_at", nullable = false)
     private Timestamp created_at;
@@ -127,6 +139,14 @@ public class Report {
 
     public void setUpdated_at(Timestamp updated_at) {
         this.updated_at = updated_at;
+    }
+
+    public Integer getApproval() {
+        return approval;
+    }
+
+    public void setApproval(Integer approval) {
+        this.approval = approval;
     }
 
 
